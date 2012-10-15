@@ -1,0 +1,13 @@
+Release
+Release+Asserts
+Output
+
+cscope.*
+Makefile.config
+.*
+config.*
+test/testrun.*
+docs/doxygen.cfg
+docs/doxygen
+
+!.gitignore
