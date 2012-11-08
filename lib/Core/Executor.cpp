@@ -2510,8 +2510,8 @@ void printState(ExecutionState &state) {
          ie = sf.allocas.end(); it != ie; ++it) {
     const MemoryObject *mo = *it;
     std::cerr << "|\t\tMO id = " << std::setw(6) << mo->id << "  ";
-    std::cerr << "[" << (void*)(mo->address) << ", " <<
-      (void*)(mo->address + mo->size) << ")\n";
+    std::cerr << "(" << (mo->address) << ", " <<
+      mo->size << ")\n";
   }
 
   int nrLocals = sf.kf->numRegisters;
