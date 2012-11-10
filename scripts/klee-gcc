@@ -27,7 +27,7 @@ def main():
 
         linkArgs.append(a)
     
-    os.execvp("llvm-ld", ["llvm-ld", "--disable-opt"] + linkArgs)
+    os.execvp("llvm-ld", ["llvm-ld", "--disable-opt", "-L/usr/lib64"] + linkArgs)
     return 1
 
 if __name__ == '__main__':
