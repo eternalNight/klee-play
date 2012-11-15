@@ -2470,6 +2470,14 @@ void printMemory(const MemoryObject *mo, const ObjectState *os)
     ref<Expr> e = os->read8(i);
     std::cerr << e << "\n";
   }
+
+  std::cerr << "|\t\tUpdate List:\n";
+  const UpdateList &updates = os->getUpdates();
+  const UpdateNode *node = updates.head;
+  while (node) {
+    std::cerr << "|\t\t\t" << node->index << " " << node->getSize() << " " << node->value;
+    node = node->next;
+  }
 }
 
 void printGlobals(ExecutionState &state, std::map<const llvm::GlobalValue*, MemoryObject*>& globals)
@@ -3195,7 +3203,7 @@ void Executor::executeMemoryOperation(ExecutionState &state,
         } else {
           ObjectState *wos = state.addressSpace.getWriteable(mo, os);
           wos->write(offset, value);
-        }          
+        }
       } else {
         ref<Expr> result = os->read(offset, type);
         
