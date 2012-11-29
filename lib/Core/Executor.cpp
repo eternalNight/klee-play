@@ -2475,7 +2475,7 @@ void printMemory(const MemoryObject *mo, const ObjectState *os)
   const UpdateList &updates = os->getUpdates();
   const UpdateNode *node = updates.head;
   while (node) {
-    std::cerr << "|\t\t\t" << node->index << " " << node->getSize() << " " << node->value;
+    std::cerr << "|\t\t\t" << node->index << "~~~~" << node->value << "\n";
     node = node->next;
   }
 }
@@ -2495,7 +2495,7 @@ void printGlobals(ExecutionState &state, std::map<const llvm::GlobalValue*, Memo
   std::cerr << "======================================================================\n";
 }
 
-void printState(ExecutionState &state) {
+void printState(ExecutionState &state, bool fullMO = false) {
   if (!DebugPrintStates)
     return;
 
@@ -2536,7 +2536,7 @@ void printState(ExecutionState &state) {
 
   // Print memory address mapping
   std::cerr << "+-- Memory Mapping\n";
-  if (DebugPrintFullMO) {
+  if (DebugPrintFullMO || fullMO) {
     MemoryMap &mm = state.addressSpace.objects;
     MemoryMap::iterator it = mm.begin();
     MemoryMap::iterator ie = mm.end();
@@ -2641,7 +2641,7 @@ void Executor::run(ExecutionState &initialState) {
   searcher->update(0, states, std::set<ExecutionState*>());
 
   printGlobals(initialState, globalObjects);
-  printState(initialState);
+  printState(initialState, true);
   while (!states.empty() && !haltExecution) {
     ExecutionState &state = searcher->selectState();
     KInstruction *ki = state.pc;
